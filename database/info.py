@@ -121,39 +121,39 @@ async def main():
 
 # asyncio.run(main_pooled())
 
-import asyncio
+# import asyncio
 
-import polars as pl
-import pandas as pd
+# import polars as pl
+# import pandas as pd
 
-async def main():
-    # 1. Set up an async SQLAlchemy engine
-    # Replace with your actual database credentials
-    pool = await asyncpg.create_pool(DB_URL)
+# async def main():
+#     # 1. Set up an async SQLAlchemy engine
+#     # Replace with your actual database credentials
+#     pool = await asyncpg.create_pool(DB_URL)
 
-    # The SQL query you want to execute
+#     # The SQL query you want to execute
 
-    # 2. Define the synchronous Polars reading function
-    # Polars' read_database handles connection execution internally, 
-    # and the connection/cursor will be closed automatically for this specific query.
-    def read_polars_sync(conn):
-        return pl.read_database(query=QUERY, connection=conn)
+#     # 2. Define the synchronous Polars reading function
+#     # Polars' read_database handles connection execution internally, 
+#     # and the connection/cursor will be closed automatically for this specific query.
+#     def read_polars_sync(conn):
+#         return pl.read_database(query=QUERY, connection=conn)
 
-    # 3. Execute synchronously within the async connection context
-    try:
-        async with pool.acquire() as conn:
-            # The partial ensures the function has the query argument pre-filled
-            # df = await conn.fetch(read_polars_sync, conn)
-            df = pd.DataFrame(await conn.fetch(QUERY))
+#     # 3. Execute synchronously within the async connection context
+#     try:
+#         async with pool.acquire() as conn:
+#             # The partial ensures the function has the query argument pre-filled
+#             # df = await conn.fetch(read_polars_sync, conn)
+#             df = pd.DataFrame(await conn.fetch(QUERY))
         
-        print(df.head())
+#         print(df.head())
         
-    except Exception as e:
-        print(f"An error occurred: {e}")
+#     except Exception as e:
+#         print(f"An error occurred: {e}")
         
-    finally:
-        # Dispose of the engine resources
-        await pool.close()
+#     finally:
+#         # Dispose of the engine resources
+#         await pool.close()
 
-if __name__ == "__main__":
-    asyncio.run(main())
+# if __name__ == "__main__":
+#     asyncio.run(main())
