@@ -5,11 +5,15 @@ from shared.schema import *
 date_format = '%Y/%m/%d'
 time_format = '%H%M'
 
-
+# def date_check(str):
+#     if str != '':
+#         date = datetime.strptime(str, date_format)
+#         return date
+#     else:
+#         return None
 
 def parse_excel(df):
     upload_df = df.rename(columns=rename_dict)
-    upload_df = upload_df.fillna('')
     
     upload_df['main'] = upload_df.loc[:, 'sub'].apply(lambda x: x[:9])
 
@@ -20,7 +24,7 @@ def parse_excel(df):
     upload_df['dept_pickup'] = upload_df.loc[:, 'dept_shipping'].replace('0001 總倉(2F廠務辦公室)', '')
 
     upload_df['transport'] = upload_df.loc[:, 'transport'].replace('', '門市自取')
-
+    
     upload_df['date_delivery'] = upload_df.loc[:, 'date_delivery'].apply(lambda x: datetime.strptime(x, date_format))
     upload_df['date_created'] = upload_df.loc[:, 'date_created'].apply(lambda x: datetime.strptime(x, date_format))
     upload_df['date_shipping'] = None
